@@ -33,6 +33,8 @@ console.log(rs);
 //}
 //await main();
 
+const pushDataInterval = 60 * 1000 // every minute
+
 // Twitch viewer
 const authProviderViewerTracking = new AppTokenAuthProvider(twitchConfig.clientId, twitchConfig.clientSecret);
 const twitchApi = new ApiClient({ authProvider: authProviderViewerTracking });
@@ -42,7 +44,7 @@ let chain = new Chain()
 chain.add(
   () => printMessageCounts(),
   async () => await addToTimeseries()
-).every(1000 * 20) // every 10 seconds
+).every(pushDataInterval) // every minute
 
 function printMessageCounts() {
   console.log(twitchMessageCounts)
@@ -161,23 +163,21 @@ async function initTwitch() {
         '${channel}',
         '${user}',
         '${text.replace(/\'/g,"''").replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')}'
-      )`)
+      )`)*/
 
-      await db.execute(
-        `INSERT INTO chats (
-          created_at,
-          stream,
-          username,
-          message
-          ) VALUES (
-          ${getUnixTimeStamp()},
-          '${channel}',
-          '${user}',
-          '${text.replace(/\'/g,"''").replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')}'
-        )`);
-      */
+    await db.execute(
+      `INSERT INTO chats (
+        created_at,
+        stream,
+        username,
+        message
+        ) VALUES (
+        ${getUnixTimeStamp()},
+        '${channel}',
+        '${user}',
+        '${text.replace(/\'/g,"''").replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')}'
+      )`);
   })
-
 }
 
 function getUnixTimeStamp() {
