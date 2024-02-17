@@ -8,14 +8,28 @@ import credentials from './credentials.json' assert { type: 'json' }
 // https://twitchapps.com/tmi/
 const { twitchConfig } = credentials
 
+/*
+Info from Fatzke on restreams
+German: https://www.twitch.tv/germench
+German (Stream 2): https://www.twitch.tv/connectspeedruns
+French: https://twitch.tv/nitro_speedrun
+French (Stream 2):  https://twitch.tv/nitro_speedrun2
+Japanese: https://www.twitch.tv/japanese_restream
+Japanese (Stream 2):  https://www.twitch.tv/japanese_restream2
+Russian: https://www.twitch.tv/r_u_s_c
+*/
+
 // The Twitch channel URL slugs to watch for
 const twitch_channels = [
   'esamarathon',
   'esamarathon2',
-  'gamesdonequick',
-  'flats'
-  //'germench'
-  //
+  'germench',
+  'connectspeedruns',
+  'nitro_speedrun',
+  'nitro_speedrun2',
+  'japanese_restream',
+  'japanese_restream2',
+  'r_u_s_c'
 ]
 
 let twitchMessageCounts = {}
@@ -47,7 +61,7 @@ chain.add(
 ).every(pushDataInterval) // every minute
 
 function printMessageCounts() {
-  console.log(twitchMessageCounts)
+  //console.log(twitchMessageCounts)
 }
 
 function resetChatmessageCounts() {
@@ -66,10 +80,10 @@ async function addToTimeseries() {
     let messageCount = twitchMessageCounts[streamName];
 
     if (stream !== null) {
-        console.log(`${stream.viewers} users are watching currently ${streamName} and there were ${messageCount}`)
+        console.log(`[Twitch] channel ${streamName} is online with ${stream.viewers} viewers, ${messageCount} messages last minute`)
         viewerCount = stream.viewers
     } else {
-        //console.log(`the stream is offline`)
+        console.log(`[Twitch] channel ${streamName} is offline`)
     }
 
     await db.execute(
@@ -153,17 +167,6 @@ async function initTwitch() {
 
     twitchMessageCounts[channel]++
       //console.log(`[Twitch] Channel ${channel}: Received message: ${text}, MSG ${msg}`)
-      /*console.log(`INSERT INTO chats (
-        created_at,
-        stream,
-        username,
-        message
-        ) VALUES (
-        ${getUnixTimeStamp()},
-        '${channel}',
-        '${user}',
-        '${text.replace(/\'/g,"''").replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '')}'
-      )`)*/
 
     await db.execute(
       `INSERT INTO chats (
