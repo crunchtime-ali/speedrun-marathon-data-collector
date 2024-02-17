@@ -1,0 +1,19 @@
+{
+  "name": "speedrun-marathon-collector",
+  "version": "0.1.0",
+  "description": "Collects viewing and donation data for several speedrun marathons",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@libsql/client": "^0.5.0",
+    "@twurple/api": "^7.0.8",
+    "@twurple/auth": "^7.0.8",
+    "@twurple/chat": "^7.0.8",
+    "repeat": "^2.0.4",
+    "sqlstring": "^2.3.3"
+  }
+}

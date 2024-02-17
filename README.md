@@ -1,0 +1,1 @@
+# Speedrun Marathon Data Collector
