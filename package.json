@@ -4,7 +4,7 @@
   "description": "Collects viewing and donation data for several speedrun marathons",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node sgdq-schedule.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "@twurple/api": "^7.0.8",
     "@twurple/auth": "^7.0.8",
     "@twurple/chat": "^7.0.8",
+    "pg": "^8.12.0",
     "repeat": "^2.0.4",
     "sqlstring": "^2.3.3"
   }
